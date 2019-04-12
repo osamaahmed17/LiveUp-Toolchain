@@ -79,7 +79,9 @@ router.post('/users/signin', function(req, res, next) {
         selector: { schema: 'User' }
     }, function(err, body) {
         if(!err) {
-            res.status(200).json(body.docs);
+            res.status(200).json({
+              body:body.docs
+            });
         } else {
             return next(err);
         }
