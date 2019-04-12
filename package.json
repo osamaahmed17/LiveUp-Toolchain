@@ -23,11 +23,13 @@
     "dotenv": "^4.0.0",
     "express": "^4.15.x",
     "express-joi-validator": "^2.0.1",
+    "faker": "^4.1.0",
     "joi": "^14.3.1",
     "jsonwebtoken": "^8.5.1",
     "leveldown": "^5.0.1",
     "prebuild": "^8.2.1",
-    "superlogin": "^0.6.1"
+    "superlogin": "^0.6.1",
+    "twilio": "^3.30.0"
   },
   "author": "IBM Corp",
   "license": "Apache-2.0"

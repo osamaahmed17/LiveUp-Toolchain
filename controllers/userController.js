@@ -5,7 +5,26 @@ var express = require("express");
 var user = require('../models/user');
 var verify = require('../auth/verify');
 var router = express.Router();
+const AccessToken = require('twilio').jwt.AccessToken;
+const VideoGrant = AccessToken.VideoGrant;
 var cloudant, mydb;
+
+
+/*-------------------------------Twilio Configuration--------------------------------*/
+const twilioAccountSid = 'ACf8b17e1b9eb8d2b9b82432a5ff60c926';
+const twilioApiKey = 'SK8f26003fdfb220f3b3a7af42c57f1f12';
+const twilioApiSecret = 'N9ptLeTFAnNy33ontLmYXyZbzcum4wYs';
+const videoGrant = new VideoGrant({
+  room: 'cool room',
+  });
+const twilioToken = new AccessToken(twilioAccountSid, twilioApiKey, twilioApiSecret);
+twilioToken.addGrant(videoGrant);
+/*----------------------------------------------------------------------------------------------*/
+
+
+
+
+
 
 /*-------------------------------Cloudantant Configuration--------------------------------*/
 var vcapLocal; // load local VCAP configuration  and service credentials
@@ -52,7 +71,8 @@ router.post('/users/signin', function(req, res, next) {
                   firstname:req.body.firstname,
                   lastname:req.body.lastname,
                   country:req.body.country,
-                  usertype:req.body.usertype
+                  usertype:req.body.usertype,
+                  twilioToken:twilioToken.toJwt()
                 };
                 
                 var token = jwt.sign(payload, process.env.SECRET_KEY, {
@@ -82,6 +102,7 @@ router.post('/users/signin', function(req, res, next) {
             return res.status(200).json({
               body:body.docs
             });
+            
         } else {
             return next(function (err,data){
                   console.log(err);
@@ -104,16 +125,19 @@ router.post('/users/signin', function(req, res, next) {
         lastname:req.body.lastname,
         country:req.body.country,
         usertype:req.body.usertype,
+        twilioToken:twilioToken.toJwt(),
         schema: 'User'
     }, function(err, body) {
         if(!err) {
             return res.status(200).json({
+              _id:req.body._id,
               username:req.body.username,
               password:req.body.password,
               firstname:req.body.firstname,
               lastname:req.body.lastname,
               country:req.body.country,
               usertype:req.body.usertype,
+              twilioToken:twilioToken.toJwt()
             });
         } else {
             return next(err);
