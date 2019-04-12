@@ -83,7 +83,11 @@ router.post('/users/signin', function(req, res, next) {
               body:body.docs
             });
         } else {
-            return next(err);
+            return next(function (err,data){
+                  console.log(err);
+                }
+              );
+            
         }
     });
   });
