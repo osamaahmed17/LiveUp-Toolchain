@@ -95,7 +95,16 @@ router.post('/users/signin', function(req, res, next) {
 
   /*------------------------------------For Dashboard--------------------------------*/
   router.get('/users', function(req, res, next){
-                res.send("hi")
+    mydb.find({
+        selector: { schema: 'User' }
+    }, function(err, body) {
+        if(!err) {
+            return res.status(200).json({
+              body:body.docs
+            });
+   
+        }
+    });
   });
  /*----------------------------------------------------------------------------------------------*/
 
