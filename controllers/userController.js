@@ -102,13 +102,7 @@ router.post('/users/signin', function(req, res, next) {
             return res.status(200).json({
               body:body.docs
             });
-            
-        } else {
-            return next(function (err,data){
-                  console.log(err);
-                }
-              );
-            
+   
         }
     });
   });
