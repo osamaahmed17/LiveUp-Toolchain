@@ -96,11 +96,11 @@ router.post('/users/signin', function(req, res, next) {
   /*------------------------------------For Dashboard--------------------------------*/
   router.get('/users', function(req, res, next){
     mydb.find({
-        selector: { schema: 'User' }
+      selector: { _id: req.body._id}
     }, function(err, body) {
         if(!err) {
             return res.status(200).json({
-              body:body.docs
+              message:"Hi"
             });
    
         }
