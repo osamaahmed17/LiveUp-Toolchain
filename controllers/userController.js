@@ -18,7 +18,7 @@ const videoGrant = new VideoGrant({
   room: 'cool room',
   });
 const twilioToken = new AccessToken(twilioAccountSid, twilioApiKey, twilioApiSecret);
-twilioToken.addGrant(videoGrant);
+
 /*----------------------------------------------------------------------------------------------*/
 
 
@@ -115,6 +115,8 @@ router.post('/users/signin', function(req, res, next) {
 
   /*------------------------------For SiginUp-----------------------------------------------------*/
   router.post('/users/signup', expressJoi(user), function(req, res, next) {
+    token.identity = req.body.firstname;
+    twilioToken.addGrant(videoGrant);
     mydb.insert({
         _id:req.body._id,
         username:req.body.username,
