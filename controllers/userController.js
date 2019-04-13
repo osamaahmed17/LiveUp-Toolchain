@@ -94,7 +94,7 @@ router.post('/users/signin', function(req, res, next) {
 
 
   /*------------------------------------For Dashboard--------------------------------*/
-  router.get('/users', function(req, res, next){
+  router.get('/users', verify.verifyUser, function(req, res, next){
     mydb.find({
         selector: { schema: 'User' }
     }, function(err, body) {
@@ -102,7 +102,11 @@ router.post('/users/signin', function(req, res, next) {
             return res.status(200).json({
               body:body.docs
             });
-   
+            
+        } else {
+            return res.status(400).json({ error: err });
+            ;
+            
         }
     });
   });
