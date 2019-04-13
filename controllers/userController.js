@@ -99,9 +99,7 @@ router.post('/users/signin', function(req, res, next) {
         selector: { schema: 'User' }
     }, function(err, body) {
         if(!err) {
-            return res.send({
-              body:body.docs
-            });
+            return res.send(body.docs);
             
         } else {
             return res.status(400).json({ error: err });
