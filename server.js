@@ -1,4 +1,5 @@
 var express = require("express");
+var cors = require('cors');
 var app = express();
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -8,7 +9,7 @@ var usersController = require('./controllers/userController');
 
 
 
-
+app.use(cors()); 
 app.use('/', usersController);
 app.use(express.static(__dirname + '/views'));
 
