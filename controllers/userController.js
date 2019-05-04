@@ -7,6 +7,7 @@ var verify = require('../auth/verify');
 var router = express.Router();
 const AccessToken = require('twilio').jwt.AccessToken;
 const VideoGrant = AccessToken.VideoGrant;
+
 var cloudant, mydb;
 
 
@@ -68,10 +69,8 @@ router.post('/users/signin', function(req, res, next) {
                 var payload = {
                   username:req.body.username,
                   password:req.body.password,
-                  firstname:req.body.firstname,
-                  lastname:req.body.lastname,
+                  fullname:req.body.fullname,
                   country:req.body.country,
-                  usertype:req.body.usertype,
                   twilioToken:twilioToken.toJwt()
                 };
                 
@@ -116,25 +115,20 @@ router.post('/users/signin', function(req, res, next) {
     twilioToken.identity = req.body.firstname;
     twilioToken.addGrant(videoGrant);
     mydb.insert({
-        _id:req.body._id,
+       
         username:req.body.username,
         password:req.body.password,
-        firstname:req.body.firstname,
-        lastname:req.body.lastname,
+        fullname:req.body.fullname,
         country:req.body.country,
-        usertype:req.body.usertype,
         twilioToken:twilioToken.toJwt(),
         schema: 'User'
     }, function(err, body) {
         if(!err) {
             return res.status(200).json({
-              _id:req.body._id,
               username:req.body.username,
               password:req.body.password,
-              firstname:req.body.firstname,
-              lastname:req.body.lastname,
+              fullname:req.body.fullname,
               country:req.body.country,
-              usertype:req.body.usertype,
               twilioToken:twilioToken.toJwt()
             });
         } else {
