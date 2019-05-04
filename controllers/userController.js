@@ -61,49 +61,31 @@ if (cloudant) {
 /*------------------------------For Signin/Login--------------------------------*/
 router.post('/users/signin', function (req, res, next) {
   mydb.find({
-    selector: { _id: req.body._id }
-  }, function (err, user) {
-    if (err) {
-      console.error(err);
-      res.status(500)
-        .json({
-          error: 'Internal error please try again'
-        });
-    } else if (!user) {
-      res.status(401)
-        .json({
-          error: 'Incorrect email or password'
-        });
-    } else {
-      user.isCorrectPassword(password, function (err, same) {
-        if (err) {
-          res.status(500)
-            .json({
-              error: 'Internal error please try again'
+    selector: { username: req.body.username }
+}, function(err, body) {
+    if(!err) {
+        var user = body.docs[0];
+        if(req.body.password== user.password) {
+            var payload = {
+              username: req.body.username,
+              password: req.body.password,
+              fullname: req.body.fullname,
+              country: req.body.country,
+              twilioToken: twilioToken.toJwt()
+            };
+            
+            var token = jwt.sign(payload, secret, {
+                expiresIn: 3600
             });
-        } else if (!same) {
-          res.status(401)
-            .json({
-              error: 'Incorrect email or password'
-            });
+            
+            res.cookie('token', token, { httpOnly: true }).sendStatus(200);
         } else {
-          // Issue token
-          var payload = {
-            _id: req.body._id,
-            username: req.body.username,
-            password: req.body.password,
-            fullname: req.body.fullname,
-            country: req.body.country,
-            twilioToken: twilioToken.toJwt()
-          };;
-          const token = jwt.sign(payload, secret, {
-            expiresIn: '1h'
-          });
-          res.cookie('token', token, { httpOnly: true }).sendStatus(200);
+            return res.status(401).json({ error: 'Incorrect id or password.' });
         }
-      });
+    } else {
+        return res.status(401).json({ error: 'Authentication failed.' });
     }
-  });
+});
 });
 /*----------------------------------------------------------------------------------------------*/
 
