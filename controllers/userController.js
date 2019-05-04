@@ -67,6 +67,7 @@ router.post('/users/signin', function(req, res, next) {
             var user = body.docs[0];
             if(user && req.body.password==user.password) {
                 var payload = {
+                  _id:req.body._id,
                   username:req.body.username,
                   password:req.body.password,
                   fullname:req.body.fullname,
@@ -115,7 +116,7 @@ router.post('/users/signin', function(req, res, next) {
     twilioToken.identity = req.body.firstname;
     twilioToken.addGrant(videoGrant);
     mydb.insert({
-       
+       _id:req.body._id,
         username:req.body.username,
         password:req.body.password,
         fullname:req.body.fullname,
@@ -125,6 +126,7 @@ router.post('/users/signin', function(req, res, next) {
     }, function(err, body) {
         if(!err) {
             return res.status(200).json({
+              _id:req.body._id,
               username:req.body.username,
               password:req.body.password,
               fullname:req.body.fullname,
