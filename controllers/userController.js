@@ -59,7 +59,7 @@ if (cloudant) {
 /*------------------------------All User Routes and Configuration--------------------------------*/
 
 /*------------------------------For Signin/Login--------------------------------*/
-router.post('/api/authenticate', function (req, res, next) {
+router.post('/users/signin', function (req, res, next) {
   mydb.find({
     selector: { _id: req.body._id }
   }, function (err, user) {
