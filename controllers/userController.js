@@ -62,30 +62,40 @@ if (cloudant) {
 router.post('/users/signin', function (req, res, next) {
   mydb.find({
     selector: { username: req.body.username }
-}, function(err, body) {
-    if(!err) {
-        var user = body.docs[0];
-        if(req.body.password== user.password) {
-            var payload = {
-              username: req.body.username,
-              password: req.body.password,
-              fullname: req.body.fullname,
-              country: req.body.country,
-              twilioToken: twilioToken.toJwt()
-            };
-            
-            var token = jwt.sign(payload, secret, {
-                expiresIn: 3600
+  }, function (err, body) {
+    if (!err) {
+      var user = body.docs[0];
+      if (req.body.password == user.password) {
+        var payload = {
+          username: req.body.username,
+          password: req.body.password,
+          fullname: req.body.fullname,
+          country: req.body.country,
+          twilioToken: twilioToken.toJwt()
+        };
+        jwt.sign(
+          payload,
+         secret,
+          {
+            expiresIn: 31556926 // 1 year in seconds
+          },
+          (err, token) => {
+            res.json({
+              success: true,
+              token: "Bearer " + token
             });
-            
-            res.cookie('token', token, { httpOnly: true }).sendStatus(200);
-        } else {
-            return res.status(401).json({ error: 'Incorrect id or password.' });
-        }
+          }
+        );
+      } else {
+        return res
+          .status(400)
+          .json({ passwordincorrect: "Password incorrect" });
+      }
+
     } else {
-        return res.status(401).json({ error: 'Authentication failed.' });
+      return res.status(401).json({ error: 'Authentication failed.' });
     }
-});
+  });
 });
 /*----------------------------------------------------------------------------------------------*/
 
