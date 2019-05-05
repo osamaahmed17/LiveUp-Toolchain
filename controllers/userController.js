@@ -7,7 +7,6 @@ var router = express.Router();
 const withAuth = require('../auth/verify');
 const AccessToken = require('twilio').jwt.AccessToken;
 const VideoGrant = AccessToken.VideoGrant;
-
 var cloudant, mydb;
 
 
@@ -22,10 +21,6 @@ const twilioToken = new AccessToken(twilioAccountSid, twilioApiKey, twilioApiSec
 
 /*----------------------------------------------------------------------------------------------*/
 const secret = 'mysecretsshhh';
-
-
-
-
 
 /*-------------------------------Cloudantant Configuration--------------------------------*/
 var vcapLocal; // load local VCAP configuration  and service credentials
@@ -130,17 +125,16 @@ router.post('/users/signup', expressJoi(user), function (req, res, next) {
   twilioToken.identity = req.body.firstname;
   twilioToken.addGrant(videoGrant);
   mydb.insert({
-    _id: req.body._id,
+
     username: req.body.username,
     password: req.body.password,
     fullname: req.body.fullname,
     country: req.body.country,
     twilioToken: twilioToken.toJwt(),
-    schema: 'User'
+
   }, function (err, body) {
     if (!err) {
       return res.status(200).json({
-        _id: req.body._id,
         username: req.body.username,
         password: req.body.password,
         fullname: req.body.fullname,
