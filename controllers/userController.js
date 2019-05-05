@@ -107,8 +107,7 @@ router.get('/checkToken', withAuth, function (req, res) {
 
 /*----------------------------------------------------------------------------------------------*/
 function tokenForUser(user) {
-  const timestamp = new Date().getTime();
-  return jwt.encode({ sub: user.username, iat: timestamp },secret);
+  return jwt.encode({ sub: user.username },secret);
 }
 /*------------------------------For SiginUp-----------------------------------------------------*/
 router.post('/users/signup', expressJoi(user), function (req, res, next) {
