@@ -118,29 +118,32 @@ router.get('/checkToken', withAuth, function (req, res) {
 });
 
 /*----------------------------------------------------------------------------------------------*/
-
-
+function tokenForUser(user) {
+  const timestamp = new Date().getTime();
+  return jwt.encode({ sub: user.username, iat: timestamp },secret);
+}
 /*------------------------------For SiginUp-----------------------------------------------------*/
 router.post('/users/signup', expressJoi(user), function (req, res, next) {
   twilioToken.identity = req.body.firstname;
   twilioToken.addGrant(videoGrant);
-  mydb.insert({
-
-    username: req.body.username,
-    password: req.body.password,
-    fullname: req.body.fullname,
-    country: req.body.country,
-    twilioToken: twilioToken.toJwt(),
-
-  }, function (err, body) {
+  var username=req.body.username;
+  var password=req.body.password;
+  var fullname=req.body.fullname;
+  var country =req.body.country;
+  var token=twilioToken.toJwt()
+  if (!username || !password) {
+    return res.status(422).send({ error: 'You must provide username and password'});
+  }
+  const user= new user ({
+    username: username,
+    password: password,
+    fullname: fullname,
+    country: country,
+    twilioToken:token 
+  })
+  mydb.insert(user, function (err, body) {
     if (!err) {
-      return res.status(200).json({
-        username: req.body.username,
-        password: req.body.password,
-        fullname: req.body.fullname,
-        country: req.body.country,
-        twilioToken: twilioToken.toJwt()
-      });
+      return res.json({ token: tokenForUser(user) });
     } else {
       return next(err);
     }
