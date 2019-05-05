@@ -1,6 +1,6 @@
 var cfenv = require("cfenv");
 var expressJoi = require('express-joi-validator');
-var jwt = require('jsonwebtoken');
+const jwt = require('jwt-simple');
 var express = require("express");
 var user = require('../models/user');
 var router = express.Router();
@@ -68,19 +68,7 @@ router.post('/users/signin', function (req, res, next) {
           country: req.body.country,
           twilioToken: twilioToken.toJwt()
         };
-        jwt.sign(
-          payload,
-         secret,
-          {
-            expiresIn: 31556926 // 1 year in seconds
-          },
-          (err, token) => {
-            res.json({
-              success: true,
-              token: "Bearer " + token
-            });
-          }
-        );
+        res.send({ token: tokenForUser(payload) });
       } else {
         return res
           .status(400)
@@ -124,7 +112,7 @@ function tokenForUser(user) {
 }
 /*------------------------------For SiginUp-----------------------------------------------------*/
 router.post('/users/signup', expressJoi(user), function (req, res, next) {
-  twilioToken.identity = req.body.firstname;
+  twilioToken.identity = req.body.username;
   twilioToken.addGrant(videoGrant);
   var username=req.body.username;
   var password=req.body.password;
@@ -134,19 +122,16 @@ router.post('/users/signup', expressJoi(user), function (req, res, next) {
   if (!username || !password) {
     return res.status(422).send({ error: 'You must provide username and password'});
   }
-  const user= new user ({
+  const user={
     username: username,
     password: password,
     fullname: fullname,
     country: country,
     twilioToken:token 
-  })
+  }
   mydb.insert(user, function (err, body) {
-    if (!err) {
-      return res.json({ token: tokenForUser(user) });
-    } else {
-      return next(err);
-    }
+   if(err){return next(err);}
+   res.json({token:tokenForUser(user)})
   });
 });
 /*----------------------------------------------------------------------------------------------*/

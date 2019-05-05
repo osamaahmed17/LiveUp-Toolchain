@@ -27,6 +27,7 @@
     "faker": "^4.1.0",
     "joi": "^14.3.1",
     "jsonwebtoken": "^8.5.1",
+    "jwt-simple": "^0.5.6",
     "leveldown": "^5.0.1",
     "prebuild": "^8.2.1",
     "superlogin": "^0.6.1",
