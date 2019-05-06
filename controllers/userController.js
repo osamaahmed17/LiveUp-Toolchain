@@ -83,20 +83,23 @@ router.post('/users/signin', function (req, res, next) {
 /*----------------------------------------------------------------------------------------------*/
 router.post('/users/delete', function (req, res, next) {
   mydb.find({
-    selector: { username: req.body.username}
+    selector: { username: req.body.username }
   }, function (err, body) {
     if (!err) {
       var user = body.docs[0];
-      id=user._id;
-      rev=user._rev;
-      mydb.destroy(id, rev, function(err, body, header) {
+      id = user._id;
+      rev = user._rev;
+      mydb.destroy(id, rev, function (err, body, header) {
         if (!err) {
-          return res.send("Successfully deleted doc", id);
+          return res.status(200).json({ success: 'success' });
+        }
+        else {
+          return res.status(400).json({ error: err });
         }
       });
+
     } else {
       return res.status(400).json({ error: err });
-      ;
 
     }
   });
@@ -128,32 +131,32 @@ router.get('/checkToken', withAuth, function (req, res) {
 
 /*----------------------------------------------------------------------------------------------*/
 function tokenForUser(user) {
-  return jwt.encode({ sub: user.username },secret);
+  return jwt.encode({ sub: user.username }, secret);
 }
 /*------------------------------For SiginUp-----------------------------------------------------*/
 router.post('/users/signup', expressJoi(user), function (req, res, next) {
   twilioToken.identity = req.body.username;
   twilioToken.addGrant(videoGrant);
-  var username=req.body.username;
-  var password=req.body.password;
-  var fullname=req.body.fullname;
-  var country =req.body.country;
-  var token=twilioToken.toJwt()
-  var schema='User'
+  var username = req.body.username;
+  var password = req.body.password;
+  var fullname = req.body.fullname;
+  var country = req.body.country;
+  var token = twilioToken.toJwt()
+  var schema = 'User'
   if (!username || !password) {
-    return res.status(422).send({ error: 'You must provide username and password'});
+    return res.status(422).send({ error: 'You must provide username and password' });
   }
-  const user={
+  const user = {
     username: username,
     password: password,
     fullname: fullname,
     country: country,
-    twilioToken:token,
-    schema:schema 
+    twilioToken: token,
+    schema: schema
   }
   mydb.insert(user, function (err, body) {
-   if(err){return next(err);}
-   res.json({token:tokenForUser(user),user:user})
+    if (err) { return next(err); }
+    res.json({ token: tokenForUser(user), user: user })
   });
 });
 /*----------------------------------------------------------------------------------------------*/
