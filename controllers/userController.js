@@ -85,7 +85,7 @@ router.post('/users/signin', function (req, res, next) {
 
 /*------------------------------------For Dashboard--------------------------------*/
 router.get('/users', function (req, res, next) {
-  mydb.find({}, function (err, body) {
+  mydb.find( function (err, body) {
     if (!err) {
       return res.send(body.docs);
 
