@@ -81,6 +81,27 @@ router.post('/users/signin', function (req, res, next) {
   });
 });
 /*----------------------------------------------------------------------------------------------*/
+router.post('/users/delete', function (req, res, next) {
+  mydb.find({
+    selector: { username: req.body.username}
+  }, function (err, body) {
+    if (!err) {
+      var user = body.docs[0];
+      id=user._id;
+      rev=user._rev;
+      mydb.destroy(id, rev, function(err, body, header) {
+        if (!err) {
+          return res.send("Successfully deleted doc", id);
+        }
+      });
+    } else {
+      return res.status(400).json({ error: err });
+      ;
+
+    }
+  });
+});
+
 
 
 /*------------------------------------For Dashboard--------------------------------*/
