@@ -132,7 +132,7 @@ router.post('/users/signup', expressJoi(user), function (req, res, next) {
   }
   mydb.insert(user, function (err, body) {
    if(err){return next(err);}
-   res.json({token:tokenForUser(user)})
+   res.json({token:tokenForUser(user),user:user})
   });
 });
 /*----------------------------------------------------------------------------------------------*/
