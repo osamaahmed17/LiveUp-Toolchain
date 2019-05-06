@@ -85,7 +85,9 @@ router.post('/users/signin', function (req, res, next) {
 
 /*------------------------------------For Dashboard--------------------------------*/
 router.get('/users', function (req, res, next) {
-  mydb.find( function (err, body) {
+  mydb.find({
+    selector: { schema: 'User' }
+  }, function (err, body) {
     if (!err) {
       return res.send(body.docs);
 
@@ -116,6 +118,7 @@ router.post('/users/signup', expressJoi(user), function (req, res, next) {
   var fullname=req.body.fullname;
   var country =req.body.country;
   var token=twilioToken.toJwt()
+  var schema='User'
   if (!username || !password) {
     return res.status(422).send({ error: 'You must provide username and password'});
   }
@@ -124,7 +127,8 @@ router.post('/users/signup', expressJoi(user), function (req, res, next) {
     password: password,
     fullname: fullname,
     country: country,
-    twilioToken:token 
+    twilioToken:token,
+    schema:schema 
   }
   mydb.insert(user, function (err, body) {
    if(err){return next(err);}
