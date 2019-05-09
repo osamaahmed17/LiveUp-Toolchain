@@ -11,11 +11,14 @@ var cloudant, mydb;
 
 
 /*-------------------------------Twilio Configuration--------------------------------*/
-const twilioAccountSid = 'ACf8b17e1b9eb8d2b9b82432a5ff60c926';
-const twilioApiKey = 'SK8f26003fdfb220f3b3a7af42c57f1f12';
-const twilioApiSecret = 'N9ptLeTFAnNy33ontLmYXyZbzcum4wYs';
+
+
+const twilioAccountSid = 'ACbf1e7230935c21db8dd1d8f188386767';
+const twilioApiKey = 'SK4ad84307ba2d5e3e2818e9f0238a091f';
+const twilioApiSecret = 'XPsf7Afaf3x1iJdwo0W18zjwXVw8Wt39';
+
 const videoGrant = new VideoGrant({
-  room: 'cool room',
+  room: 'Launchpad',
 });
 const twilioToken = new AccessToken(twilioAccountSid, twilioApiKey, twilioApiSecret);
 
