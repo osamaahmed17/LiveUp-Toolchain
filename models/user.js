@@ -7,7 +7,7 @@ var user = {
         password: Joi.string().required(),
         fullname:Joi.string().required(),
         country:Joi.string().required(),
-        twilioToken:''
+
     }
 }
 

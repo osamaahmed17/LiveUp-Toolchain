@@ -54,7 +54,18 @@ if (cloudant) {
 
 
 /*------------------------------All User Routes and Configuration--------------------------------*/
+twilioToken: twilioToken.toJwt()
+router.get('/token', function (req, res, next) {
+  name=getRandomInt(3000)
+  twilioToken.identity = name.toString();
+  twilioToken.addGrant(videoGrant);
+  res.send(twilioToken.toJwt());
+});
 
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
 /*------------------------------For Signin/Login--------------------------------*/
 router.post('/users/signin', function (req, res, next) {
   mydb.find({
@@ -68,7 +79,7 @@ router.post('/users/signin', function (req, res, next) {
           password: req.body.password,
           fullname: req.body.fullname,
           country: req.body.country,
-          twilioToken: twilioToken.toJwt()
+ 
         };
         res.send({ token: tokenForUser(payload) });
       } else {
@@ -137,13 +148,12 @@ function tokenForUser(user) {
 }
 /*------------------------------For SiginUp-----------------------------------------------------*/
 router.post('/users/signup', expressJoi(user), function (req, res, next) {
-  twilioToken.identity = req.body.username;
-  twilioToken.addGrant(videoGrant);
+
   var username = req.body.username;
   var password = req.body.password;
   var fullname = req.body.fullname;
   var country = req.body.country;
-  var token = twilioToken.toJwt()
+
   var schema = 'User'
   if (!username || !password) {
     return res.status(422).send({ error: 'You must provide username and password' });
@@ -153,7 +163,6 @@ router.post('/users/signup', expressJoi(user), function (req, res, next) {
     password: password,
     fullname: fullname,
     country: country,
-    twilioToken: token,
     schema: schema
   }
   mydb.insert(user, function (err, body) {
