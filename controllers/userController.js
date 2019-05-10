@@ -13,9 +13,9 @@ var cloudant, mydb;
 /*-------------------------------Twilio Configuration--------------------------------*/
 
 
-const twilioAccountSid = 'ACbf1e7230935c21db8dd1d8f188386767';
-const twilioApiKey = 'SKeea60d7c30053e3e601541c44a9e7d54';
-const twilioApiSecret = 'cra6gA5e4uWZ9vsXeblotU0oPY5uvOEg';
+const twilioAccountSid = 'AC5938395f66b03f9813dd368aff0b73c2';
+const twilioApiKey = 'SK78116c1f553b926386ea94bd34e3c988';
+const twilioApiSecret = 'KRglA4nYOHGThxXbDccvFHbdU72LBszL';
 var identity=''
 const videoGrant = new VideoGrant({
   room: 'Pakistan',
