@@ -14,13 +14,13 @@ var cloudant, mydb;
 
 
 const twilioAccountSid = 'ACbf1e7230935c21db8dd1d8f188386767';
-const twilioApiKey = 'SK4ad84307ba2d5e3e2818e9f0238a091f';
-const twilioApiSecret = 'XPsf7Afaf3x1iJdwo0W18zjwXVw8Wt39';
-
+const twilioApiKey = 'SKeea60d7c30053e3e601541c44a9e7d54';
+const twilioApiSecret = 'cra6gA5e4uWZ9vsXeblotU0oPY5uvOEg';
+var identity=''
 const videoGrant = new VideoGrant({
   room: 'Launchpad',
 });
-const twilioToken = new AccessToken(twilioAccountSid, twilioApiKey, twilioApiSecret);
+const twilioToken = new AccessToken(twilioAccountSid, twilioApiKey, twilioApiSecret,3600,identity);
 
 /*----------------------------------------------------------------------------------------------*/
 const secret = 'mysecretsshhh';
