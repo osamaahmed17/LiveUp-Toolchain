@@ -54,16 +54,15 @@ if (cloudant) {
 
 
 /*------------------------------All User Routes and Configuration--------------------------------*/
-twilioToken: twilioToken.toJwt()
-router.get('/token', function (req, res, next) {
+router.post('/token', function (req, res, next) {
+  var username = req.body.username;
+  twilioToken.identity = username.toString();
   twilioToken.addGrant(videoGrant);
   res.send(twilioToken.toJwt());
 });
 
 
-function getRandomInt(max) {
-  return Math.floor(Math.random() * Math.floor(max));
-}
+
 /*------------------------------For Signin/Login--------------------------------*/
 router.post('/users/signin', function (req, res, next) {
   mydb.find({
