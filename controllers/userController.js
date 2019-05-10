@@ -13,14 +13,14 @@ var cloudant, mydb;
 /*-------------------------------Twilio Configuration--------------------------------*/
 
 
-const twilioAccountSid = 'AC5938395f66b03f9813dd368aff0b73c2';
+const twilioAccountSid = 'ACbf1e7230935c21db8dd1d8f188386767';
 const twilioApiKey = 'SK78116c1f553b926386ea94bd34e3c988';
 const twilioApiSecret = 'KRglA4nYOHGThxXbDccvFHbdU72LBszL';
 var identity=''
 const videoGrant = new VideoGrant({
   room: 'Pakistan',
 });
-const twilioToken = new AccessToken(twilioAccountSid, twilioApiKey, twilioApiSecret,3600,identity);
+const twilioToken = new AccessToken(twilioAccountSid, twilioApiKey, twilioApiSecret,3600);
 
 /*----------------------------------------------------------------------------------------------*/
 const secret = 'mysecretsshhh';
