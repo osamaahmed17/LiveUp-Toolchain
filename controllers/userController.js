@@ -56,8 +56,6 @@ if (cloudant) {
 /*------------------------------All User Routes and Configuration--------------------------------*/
 twilioToken: twilioToken.toJwt()
 router.get('/token', function (req, res, next) {
-  name=getRandomInt(3000)
-  twilioToken.identity = name.toString();
   twilioToken.addGrant(videoGrant);
   res.send(twilioToken.toJwt());
 });
