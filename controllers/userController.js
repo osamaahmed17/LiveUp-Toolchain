@@ -16,11 +16,10 @@ var cloudant, mydb;
 const twilioAccountSid = 'AC5938395f66b03f9813dd368aff0b73c2';
 const twilioApiKey = 'SK0039c3ca9e8a580db97b418081bc5e0f';
 const twilioApiSecret = 'QTfJaeaWIzrrxfOPZZU4jDAoYehcqsS0';
-var identity=''
 const videoGrant = new VideoGrant({
   room: 'Pakistan',
 });
-const twilioToken = new AccessToken(twilioAccountSid, twilioApiKey, twilioApiSecret,3600,identity);
+const twilioToken = new AccessToken(twilioAccountSid, twilioApiKey, twilioApiSecret);
 
 /*----------------------------------------------------------------------------------------------*/
 const secret = 'mysecretsshhh';
