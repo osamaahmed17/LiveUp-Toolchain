@@ -20,7 +20,7 @@ var identity=''
 const videoGrant = new VideoGrant({
   room: 'Pakistan',
 });
-const twilioToken = new AccessToken(twilioAccountSid, twilioApiKey, twilioApiSecret,3600);
+const twilioToken = new AccessToken(twilioAccountSid, twilioApiKey, twilioApiSecret);
 
 /*----------------------------------------------------------------------------------------------*/
 const secret = 'mysecretsshhh';
