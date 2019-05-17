@@ -5,7 +5,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 var http=require('http')
 const server=http.createServer(app);
-//var usersController = require('./controllers/userController');
+var usersController = require('./controllers/userController');
 var socketIO= require('socket.io');
 var cors=require('cors');
 var io= socketIO(server);
