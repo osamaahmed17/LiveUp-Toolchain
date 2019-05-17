@@ -18,10 +18,11 @@ app.use(express.static(__dirname + '/views'));
 
 
 io.on('connection', socket => {
-    socket.emit("FromAPI", "Osama"); // Emitting a new message. It will be consumed by the client
-    socket.on("disconnect", () => {
-        console.log("Client disconnected");
-      })
+    socket.on('greet',greeting=>{
+        hi=greeting;
+        socket.emit("FromAPI", hi); 
+    })
+    
 })
 
 
