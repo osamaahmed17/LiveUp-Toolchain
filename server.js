@@ -16,13 +16,30 @@ app.use(cors({
     'preflightContinue': false
 }));
 app.use('/', usersController);
+
+
 app.use(express.static(__dirname + '/views'));
 
 
 
-var port = process.env.PORT || 3000
-app.listen(port, function() {
-    console.log("To view your app, open this link in your browser: http://localhost:" + port);
-});
+const server = app.listen(3000, () => {
+    console.log('listening on *:3000');
+  });
+
+
+
+
+
+const io = require('socket.io')(server);
+
+// Set socket.io listeners.
+io.on('connection', (socket) => {
+    console.log('a user connected');
+  
+    socket.on('disconnect', () => {
+      console.log('user disconnected');
+    });
+  });
+
 
 module.exports = app;
