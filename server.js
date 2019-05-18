@@ -16,14 +16,13 @@ app.use(cors())
 app.use('/', usersController);
 app.use(express.static(__dirname + '/views'));
 
-
+var user ={showstate:'close'}
 io.on('connection', socket => {
-    
     socket.on('Data',greeting=>{
-        console.log(greeting);
-        socket.emit("Data", greeting);
+     user=greeting
     })
-   
+    //console.log(user)
+    socket.emit("Data", user);
 
 })
 
