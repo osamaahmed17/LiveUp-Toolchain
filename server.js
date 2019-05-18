@@ -18,13 +18,14 @@ app.use(express.static(__dirname + '/views'));
 
 
 io.on('connection', socket => {
-    socket.on('greet',greeting=>{
-        hi=greeting;
-        socket.emit("FromAPI", hi); 
-    })
     
-})
+    socket.on('Data',greeting=>{
+        console.log(greeting);
+        socket.emit("Data", greeting);
+    })
+   
 
+})
 
 
 server.listen(process.env.PORT || 3000, function () {
