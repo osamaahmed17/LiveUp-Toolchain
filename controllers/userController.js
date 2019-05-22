@@ -167,5 +167,56 @@ router.post('/users/signup', expressJoi(user), function (req, res, next) {
     res.json({ token: tokenForUser(user), user: user })
   });
 });
+
+/*------------------------------------Delete----------------------------------------------------*/
+router.post('/users/delete', function (req, res, next) {
+  mydb.find({
+    selector: { username: req.body.username }
+  }, function (err, body) {
+    if (!err) {
+      var user = body.docs[0];
+      id = user._id;
+      rev = user._rev;
+      mydb.destroy(id, rev, function (err, body, header) {
+        if (!err) {
+          return res.status(200).json({ success: 'success' });
+        }
+        else {
+          return res.status(400).json({ error: err });
+        }
+      });
+
+    } else {
+      return res.status(400).json({ error: err });
+
+    }
+  });
+});
+
+/*-----------------------------------Update-----------------------------------------------------------*/
+router.post('/users/update', function (req, res, next) {
+  mydb.find({
+    selector: { username: req.body.username }
+  }, function (err, body) {
+    if (!err) {
+      var user = body.docs[0];
+      id = user._id;
+      rev = user._rev;
+      username = req.body.username,
+        password = req.body.password,
+        fullname = req.body.password,
+        country = req.body.country
+      mydb.insert({
+        _id: id,
+        _rev: rev,
+        username: username,
+        password: password,
+        fullname: fullname,
+        country: country,
+        schema: "User"
+      })
+    }
+  });
+});
 /*----------------------------------------------------------------------------------------------*/
 module.exports = router;

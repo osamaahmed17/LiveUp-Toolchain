@@ -4,7 +4,6 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 var http = require('http')
-var router = express.Router();
 const server = http.createServer(app);
 var usersController = require('./controllers/userController');
 var socketIO = require('socket.io');
