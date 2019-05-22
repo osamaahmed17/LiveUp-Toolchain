@@ -204,7 +204,7 @@ router.post('/users/update', function (req, res, next) {
       rev = user._rev;
       username = req.body.username,
         password = req.body.password,
-        fullname = req.body.password,
+        fullname = req.body.fullname,
         country = req.body.country
       mydb.insert({
         _id: id,
